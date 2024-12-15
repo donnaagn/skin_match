@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:skin_match/screens/main_screen.dart'; // Pastikan path-nya sesuai dengan struktur proyek Anda.
+import 'package:skin_match/screens/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:skin_match/screens/main_screen.dart';
 
-void main() {
-  runApp(const SkinMatchApp());
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+
+  runApp(SkinMatchApp(
+    isLoggedIn: isLoggedIn,
+  ));
+
 }
 
 class SkinMatchApp extends StatelessWidget {
-  const SkinMatchApp({super.key});
+  final bool isLoggedIn;
+  const SkinMatchApp({super.key, required this.isLoggedIn});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +29,11 @@ class SkinMatchApp extends StatelessWidget {
         primarySwatch: Colors.pink, // Warna tema aplikasi
         fontFamily: 'DeliciousHandrawn', // Font default
       ),
-      home: const MainScreen(), // Halaman utama
+      home: isLoggedIn ? const MainScreen() : const LoginScreen(),
+      routes: {
+        '/login': (context) => const LoginScreen(),
+        '/home': (context) => const MainScreen()
+      },
     );
   }
 }
