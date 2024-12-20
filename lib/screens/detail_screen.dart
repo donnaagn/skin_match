@@ -16,8 +16,9 @@ class _DetailScreenState extends State<DetailScreen> {
 
   Future<void> _loadFavoriteStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> favoriteProduct = prefs.getStringList('favoriteProduct') ?? [];
     setState(() {
-      _isFavorite = prefs.getBool('isFavorite') ?? false;
+      _isFavorite = favoriteProduct.contains(widget.detail);
     });
   }
 
@@ -29,10 +30,21 @@ class _DetailScreenState extends State<DetailScreen> {
 
   Future<void> _toggleFavorite() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> favoriteProduct = prefs.getStringList('favoriteProduct') ?? [];
     setState(() {
-      _isFavorite = !_isFavorite;
+      if (_isFavorite) {
+        favoriteProduct.remove(widget.detail);
+        _isFavorite = false;
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('${widget.detail} removed from favorites')));
+      } else {
+        favoriteProduct.add(widget.detail);
+        _isFavorite = true;
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('${widget.detail} added to favorites')));
+      }
     });
-    await prefs.setBool('isFavorite', _isFavorite);
+    await prefs.setStringList('favoriteProduct', favoriteProduct);
   }
 
   @override
