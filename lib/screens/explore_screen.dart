@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:skin_match/screens/detail_screen.dart';
 import '../models/product.dart';
 import '../data/product_data.dart';
+
+
+
+
+
 
 class ExploreScreen extends StatelessWidget {
   const ExploreScreen({super.key});
@@ -153,9 +159,7 @@ class CategoryDetailScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProductDetailScreen(
-                      productName: product.name,
-                    ),
+                    builder: (context) => DetailScreen( product:product),
                   ),
                 );
               },
@@ -167,7 +171,17 @@ class CategoryDetailScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.image, size: 50, color: Colors.pink.shade200),
+                    ClipRRect(
+                        borderRadius: BorderRadius.circular(16), // Opsional, untuk memberi border radius pada gambar
+                        child: Image.network(
+                          product.image,  // Menampilkan gambar dari URL
+                          width: 200,  // Atur ukuran sesuai kebutuhan
+                          height: 200,
+                          fit: BoxFit.cover, // Agar gambar mengisi area dengan proporsional
+                        ),
+                  
+
+                ),
                     SizedBox(height: 8),
                     Text(
                       product.name,
@@ -195,43 +209,43 @@ class CategoryDetailScreen extends StatelessWidget {
   }
 }
 
-class ProductDetailScreen extends StatelessWidget {
-  final String productName;
+// class ProductDetailScreen extends StatelessWidget {
+//   final String productName;
 
-  const ProductDetailScreen({super.key, required this.productName});
+//   const ProductDetailScreen({super.key, required this.productName});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.pink),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text(
-          'Product Details',
-          style: TextStyle(
-            color: Colors.pink,
-            fontFamily: 'FleurDeLeah',
-            fontSize: 24,
-          ),
-        ),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Text(
-          'Detail produk: $productName',
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.pink,
-          ),
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         backgroundColor: Colors.white,
+//         elevation: 0,
+//         leading: IconButton(
+//           icon: Icon(Icons.arrow_back, color: Colors.pink),
+//           onPressed: () => Navigator.pop(context),
+//         ),
+//         title: const Text(
+//           'Product Details',
+//           style: TextStyle(
+//             color: Colors.pink,
+//             fontFamily: 'FleurDeLeah',
+//             fontSize: 24,
+//           ),
+//         ),
+//         centerTitle: true,
+//       ),
+//       body: Center(
+//         child: Text(
+//           'Detail produk: $productName',
+//           style: TextStyle(
+//             fontSize: 18,
+//             color: Colors.pink,
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 
 // Update untuk navigasi ke detail kategori
