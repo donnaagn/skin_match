@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:skin_match/screens/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skin_match/screens/main_screen.dart';
+import 'package:skin_match/screens/register_screen.dart';
 
 
 void main() async {
@@ -32,7 +33,9 @@ class SkinMatchApp extends StatelessWidget {
       home: isLoggedIn ? const MainScreen() : const LoginScreen(),
       routes: {
         '/login': (context) => const LoginScreen(),
-        '/home': (context) => const MainScreen()
+        '/home': (context) => const MainScreen(),
+        '/register': (context) => const RegisterScreen(),
+        
       },
     );
   }
