@@ -5,6 +5,7 @@ import 'package:skin_match/screens/main_screen.dart';
 import 'package:skin_match/screens/register_screen.dart';
 
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();

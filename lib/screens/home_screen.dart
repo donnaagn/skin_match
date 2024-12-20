@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:skin_match/screens/search_screen.dart';  // Pastikan SearchScreen sudah ada
+import 'package:skin_match/screens/search_screen.dart';  
+import 'package:carousel_slider/carousel_slider.dart';  // Import CarouselSlider
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -19,7 +20,6 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -56,29 +56,23 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              Container(
-                height: 150,
-                child: PageView(
-                  clipBehavior: Clip.hardEdge,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.pink[100],
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: Image.asset(
-                          'images/skintific.jpg',
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                        ),
-                      ),
-                    ),
-                  ],
+              
+              // CarouselSlider dengan perbaikan ukuran gambar
+              CarouselSlider(
+                options: CarouselOptions(
+                  height: 250,  // Tingkatkan tinggi gambar
+                  autoPlay: true,  // Mengaktifkan autoplay
+                  enlargeCenterPage: true,  // Memperbesar gambar di tengah
+                  aspectRatio: 1.5,  // Menyesuaikan rasio gambar
+                  viewportFraction: 1.0,  // Menampilkan gambar secara penuh
                 ),
+                items: [
+                  _buildCarouselItem('images/skintific.jpg'),
+                  _buildCarouselItem('images/other_image_1.jpg'),
+                  _buildCarouselItem('images/other_image_2.jpg'),
+                ],
               ),
+
               const SizedBox(height: 20),
               const Text(
                 'Trending Product',
@@ -157,6 +151,26 @@ class HomeScreen extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  // Fungsi untuk membangun item carousel
+  Widget _buildCarouselItem(String imagePath) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 5),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: Colors.pink[100],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15),
+        child: Image.asset(
+          imagePath,
+          fit: BoxFit.cover,  // Menggunakan BoxFit.cover untuk menjaga rasio aspek gambar
+          width: double.infinity,
+          height: 250,  // Menyesuaikan tinggi gambar
         ),
       ),
     );
