@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../models/product.dart';
+import '../data/product_data.dart';
 
 class ExploreScreen extends StatelessWidget {
   const ExploreScreen({super.key});
@@ -54,8 +56,8 @@ class CategoryScreen extends StatelessWidget {
             Expanded(
               child: GridView.count(
                 crossAxisCount: 3, // Jumlah kolom dalam grid
-                crossAxisSpacing: 12.0, // Jarak horizontal antar item
-                mainAxisSpacing: 12.0, // Jarak vertikal antar item
+                crossAxisSpacing: 16.0, // Jarak horizontal antar item
+                mainAxisSpacing: 16.0, // Jarak vertikal antar item
                 children: [
                   _buildCategoryItem(context, Icons.water_drop, 'Moisturizer', MoisturizerScreen()),
                   _buildCategoryItem(context, Icons.cleaning_services, 'Toner', TonerScreen()),
@@ -114,6 +116,8 @@ class CategoryDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<Product> products = productsByCategory[title] ?? [];
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -122,9 +126,9 @@ class CategoryDetailScreen extends StatelessWidget {
           icon: Icon(Icons.arrow_back, color: Colors.pink),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'SkinMatch',
-          style: TextStyle(
+        title: Text(
+          title,
+          style: const TextStyle(
             color: Colors.pink,
             fontFamily: 'FleurDeLeah',
             fontSize: 24,
@@ -134,87 +138,68 @@ class CategoryDetailScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            // Kotak persegi panjang berisi nama kategori
-            Container(
-              alignment: Alignment.center,
-              width: double.infinity, // Lebar penuh
-              padding: EdgeInsets.symmetric(vertical: 12.0), // Padding vertikal
-              margin: EdgeInsets.only(bottom: 16.0), // Jarak ke GridView
-              decoration: BoxDecoration(
-                color: Colors.pink.shade50, // Warna latar belakang
-                borderRadius: BorderRadius.circular(12.0), // Radius sudut
-                border: Border.all(color: Colors.pink.shade200, width: 1), // Border
-              ),
-              child: Text(
-                title, // Teks sesuai nama kategori
-                style: TextStyle(
-                  color: Colors.pink,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
+        child: GridView.builder(
+          itemCount: products.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 16.0,
+            mainAxisSpacing: 16.0,
+            childAspectRatio: 0.75,
+          ),
+          itemBuilder: (context, index) {
+            final product = products[index];
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProductDetailScreen(
+                      productName: product.name,
+                    ),
+                  ),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.pink.shade100, width: 2),
+                  borderRadius: BorderRadius.circular(12.0),
                 ),
-              ),
-            ),
-            // GridView untuk daftar produk
-            Expanded(
-              child: GridView.builder(
-                itemCount: 9, // Jumlah produk contoh
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, // Dua kolom
-                  crossAxisSpacing: 16.0,
-                  mainAxisSpacing: 16.0,
-                  childAspectRatio: 0.75,
-                ),
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => ProductDetailScreen()),
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.pink.shade100, width: 2),
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.image, size: 50, color: Colors.pink.shade200),
-                          SizedBox(height: 8),
-                          Text(
-                            'Nama Produk',
-                            style: TextStyle(
-                              color: Colors.pink,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            '4.2 ★ 123 Reviews',
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.image, size: 50, color: Colors.pink.shade200),
+                    SizedBox(height: 8),
+                    Text(
+                      product.name,
+                      style: TextStyle(
+                        color: Colors.pink,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  );
-                },
+                    SizedBox(height: 4),
+                    Text(
+                      '${product.rating} ★ ${product.reviews} Reviews',
+                      style: TextStyle(
+                        color: Colors.black54,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            );
+          },
         ),
       ),
     );
   }
 }
 
-
 class ProductDetailScreen extends StatelessWidget {
+  final String productName;
+
+  const ProductDetailScreen({super.key, required this.productName});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -226,7 +211,7 @@ class ProductDetailScreen extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
-          'SkinMatch',
+          'Product Details',
           style: TextStyle(
             color: Colors.pink,
             fontFamily: 'FleurDeLeah',
@@ -237,7 +222,7 @@ class ProductDetailScreen extends StatelessWidget {
       ),
       body: Center(
         child: Text(
-          'Detail produk di sini',
+          'Detail produk: $productName',
           style: TextStyle(
             fontSize: 18,
             color: Colors.pink,
@@ -247,6 +232,7 @@ class ProductDetailScreen extends StatelessWidget {
     );
   }
 }
+
 
 // Update untuk navigasi ke detail kategori
 class MoisturizerScreen extends StatelessWidget {
