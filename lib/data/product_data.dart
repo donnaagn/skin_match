@@ -2,7 +2,7 @@ import '../models/product.dart';
 
 final Map<String, List<Product>> productsByCategory = {
   'Moisturizer': [
-    Product(name: 'Hydrating Cream', rating: '4.5', reviews: '120'),
+    Product(name: 'Hydrating Cream Night', rating: '4.5', reviews: '120'),
     Product(name: 'Night Moisturizer', rating: '4.2', reviews: '85'),
   ],
   'Toner': [
