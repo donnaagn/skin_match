@@ -100,8 +100,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     Center(
                       child: GestureDetector(
                         onTap: () {
-                          // Navigate to sign-up screen
+                          Navigator.pushReplacementNamed(context, '/register');
                         },
+                      child: MouseRegion(
+                        cursor: SystemMouseCursors.click, // Mengubah kursor menjadi tangan
                         child: const Text.rich(
                           TextSpan(
                             text: "Don’t have an account? ",
@@ -118,6 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
+                    ),
             ],
           ),
         ),
