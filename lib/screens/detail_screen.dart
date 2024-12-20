@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:skin_match/models/product.dart'; // Pastikan path import sesuai dengan struktur project Anda
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailScreen extends StatefulWidget {
-  final String detail;
+  final Product product; // Mengganti parameter detail menjadi Product
 
-  const DetailScreen({super.key, required this.detail});
+  const DetailScreen({super.key, required this.product, required String detail});
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -59,14 +60,11 @@ class _DetailScreenState extends State<DetailScreen> {
                     color: Colors.grey.shade200,
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: Center(
-                    child: Text(
-                      'Foto',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontStyle: FontStyle.italic,
-                        color: Colors.grey.shade600,
-                      ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Image.network(
+                      widget.product.image,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
@@ -77,7 +75,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      widget.detail,
+                      widget.product.name,
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -99,7 +97,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '\$ XXX',
+                      '\Rp.${widget.product.harga}',
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -107,12 +105,12 @@ class _DetailScreenState extends State<DetailScreen> {
                       ),
                     ),
                     Row(
-                      children: const [
-                        Icon(Icons.star, color: Colors.amber, size: 20),
+                      children: [
+                        const Icon(Icons.star, color: Colors.amber, size: 20),
                         SizedBox(width: 4),
                         Text(
-                          '4.5',
-                          style: TextStyle(fontSize: 16),
+                          widget.product.rating,
+                          style: const TextStyle(fontSize: 16),
                         ),
                       ],
                     ),
@@ -120,7 +118,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 ),
                 const SizedBox(height: 16),
 
-                // Deskripsi
+                // Deskripsi (misalnya bisa disesuaikan dengan data produk)
                 const Text(
                   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                   style: TextStyle(fontSize: 14, color: Colors.black87),

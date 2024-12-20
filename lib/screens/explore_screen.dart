@@ -154,7 +154,7 @@ class CategoryDetailScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DetailScreen(detail: title),
+                    builder: (context) => DetailScreen(detail: title, product:product),
                   ),
                 );
               },
@@ -166,7 +166,17 @@ class CategoryDetailScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.image, size: 50, color: Colors.pink.shade200),
+                    ClipRRect(
+                        borderRadius: BorderRadius.circular(16), // Opsional, untuk memberi border radius pada gambar
+                        child: Image.network(
+                          product.image,  // Menampilkan gambar dari URL
+                          width: 200,  // Atur ukuran sesuai kebutuhan
+                          height: 200,
+                          fit: BoxFit.cover, // Agar gambar mengisi area dengan proporsional
+                        ),
+                  
+
+                ),
                     SizedBox(height: 8),
                     Text(
                       product.name,
