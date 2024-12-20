@@ -60,7 +60,7 @@ class HomeScreen extends StatelessWidget {
               // CarouselSlider dengan perbaikan ukuran gambar
               CarouselSlider(
                 options: CarouselOptions(
-                  height: 250,  // Tingkatkan tinggi gambar
+                  height: 380,  // Tingkatkan tinggi gambar
                   autoPlay: true,  // Mengaktifkan autoplay
                   enlargeCenterPage: true,  // Memperbesar gambar di tengah
                   aspectRatio: 1.5,  // Menyesuaikan rasio gambar
@@ -68,8 +68,8 @@ class HomeScreen extends StatelessWidget {
                 ),
                 items: [
                   _buildCarouselItem('images/skintific.jpg'),
-                  _buildCarouselItem('images/other_image_1.jpg'),
-                  _buildCarouselItem('images/other_image_2.jpg'),
+                  _buildCarouselItem('images/ser.jpg'),
+                  _buildCarouselItem('images/set.jpg'),
                 ],
               ),
 
@@ -77,7 +77,7 @@ class HomeScreen extends StatelessWidget {
               const Text(
                 'Trending Product',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 30,
                   fontWeight: FontWeight.bold,
                   color: Colors.pink,
                   fontFamily: 'DeliciousHandrawn',
