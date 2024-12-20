@@ -4,8 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailScreen extends StatefulWidget {
   final Product product; // Mengganti parameter detail menjadi Product
-
-  const DetailScreen({super.key, required this.product, required String detail});
+  const DetailScreen({super.key, required this.product});
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -18,7 +17,7 @@ class _DetailScreenState extends State<DetailScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> favoriteProduct = prefs.getStringList('favoriteProduct') ?? [];
     setState(() {
-      _isFavorite = favoriteProduct.contains(widget.detail);
+      _isFavorite = favoriteProduct.contains(widget.product.name);
     });
   }
 
@@ -33,15 +32,15 @@ class _DetailScreenState extends State<DetailScreen> {
     List<String> favoriteProduct = prefs.getStringList('favoriteProduct') ?? [];
     setState(() {
       if (_isFavorite) {
-        favoriteProduct.remove(widget.detail);
+        favoriteProduct.remove(widget.product.name);
         _isFavorite = false;
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('${widget.detail} removed from favorites')));
+            content: Text('${widget.product.name} removed from favorites')));
       } else {
-        favoriteProduct.add(widget.detail);
+        favoriteProduct.add(widget.product.name);
         _isFavorite = true;
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('${widget.detail} added to favorites')));
+            content: Text('${widget.product.name} added to favorites')));
       }
     });
     await prefs.setStringList('favoriteProduct', favoriteProduct);
