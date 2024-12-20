@@ -14,7 +14,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController _ageController = TextEditingController();
 
   bool isEditMode = false;
-
   // State untuk menyimpan data pengguna
   String userName = "Lumiah"; // Kosongkan data awal
   String userEmail = "Lumiah@gmail.com";
@@ -78,10 +77,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   )
                 : Column(
                     children: [
-                      ViewField(label: 'Nama', value: userName.isEmpty ?  "": userName),
-                      ViewField(label: 'Email', value: userEmail.isEmpty ?  "": userEmail),
-                      ViewField(label: 'Skin Type', value: userSkinType.isEmpty ?  "": userSkinType),
-                      ViewField(label: 'Umur', value: userAge.isEmpty ?  "": userAge),
+                      ViewField(label: 'Nama', value: userName.isEmpty ? "" : userName),
+                      ViewField(label: 'Email', value: userEmail.isEmpty ? "" : userEmail),
+                      ViewField(label: 'Skin Type', value: userSkinType.isEmpty ? "" : userSkinType),
+                      ViewField(label: 'Umur', value: userAge.isEmpty ? "" : userAge),
                     ],
                   ),
             SizedBox(height: 20),
@@ -95,8 +94,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     userEmail = _emailController.text;
                     userSkinType = _skinTypeController.text;
                     userAge = _ageController.text;
-
-                    
                   }
                   isEditMode = !isEditMode; // Toggle mode
                 });
@@ -105,7 +102,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 isEditMode ? Icons.check : Icons.edit,
                 color: Colors.white,
               ),
-              label: Text(isEditMode ? 'Save' : 'Edit Profile'),
+              label: Text(isEditMode ? 'Save' : 'Edit Profile', style: TextStyle(color: Colors.white)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.pink,
+                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+
+            SizedBox(height: 10),
+
+            ElevatedButton.icon(
+              onPressed: () {
+                // Tambahkan logika logout di sini
+                Navigator.of(context).pushReplacementNamed('/login');
+              },
+              icon: Icon(
+                Icons.logout,
+                color: Colors.white,
+              ),
+              label: Text('Logout', style: TextStyle(color: Colors.white)),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.pink,
                 padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
@@ -121,9 +139,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 }
 
-
 class ProfileField extends StatelessWidget {
-  final String label; 
+  final String label;
   final TextEditingController controller;
 
   const ProfileField({required this.label, required this.controller});
@@ -131,19 +148,19 @@ class ProfileField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0), 
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
-          labelText: label, 
-          labelStyle: TextStyle(color: Colors.pink), 
+          labelText: label,
+          labelStyle: TextStyle(color: Colors.pink),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10), 
-            borderSide: BorderSide(color: Colors.pink), 
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Colors.pink),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.pink, width: 2), 
+            borderSide: BorderSide(color: Colors.pink, width: 2),
           ),
         ),
       ),
@@ -151,10 +168,9 @@ class ProfileField extends StatelessWidget {
   }
 }
 
-
 class ViewField extends StatelessWidget {
-  final String label; 
-  final String value; 
+  final String label;
+  final String value;
 
   const ViewField({required this.label, required this.value});
 
@@ -163,14 +179,16 @@ class ViewField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 16), 
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.pink), 
-          borderRadius: BorderRadius.circular(10), 
+          border: Border.all(color: Colors.pink),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
           children: [
-            Text('$label: ', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.pink)), 
+            Text('$label: ',
+                style: TextStyle(
+                    fontSize: 16, fontWeight: FontWeight.bold, color: Colors.pink)),
             Expanded(
               child: Text(value, style: TextStyle(fontSize: 16, color: Colors.black)),
             ),
