@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skin_match/screens/detail_screen.dart';
 import '../models/product.dart';
 import '../data/product_data.dart';
 
@@ -153,9 +154,7 @@ class CategoryDetailScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProductDetailScreen(
-                      productName: product.name,
-                    ),
+                    builder: (context) => DetailScreen(detail: title),
                   ),
                 );
               },
@@ -195,43 +194,43 @@ class CategoryDetailScreen extends StatelessWidget {
   }
 }
 
-class ProductDetailScreen extends StatelessWidget {
-  final String productName;
+// class ProductDetailScreen extends StatelessWidget {
+//   final String productName;
 
-  const ProductDetailScreen({super.key, required this.productName});
+//   const ProductDetailScreen({super.key, required this.productName});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.pink),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text(
-          'Product Details',
-          style: TextStyle(
-            color: Colors.pink,
-            fontFamily: 'FleurDeLeah',
-            fontSize: 24,
-          ),
-        ),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Text(
-          'Detail produk: $productName',
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.pink,
-          ),
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         backgroundColor: Colors.white,
+//         elevation: 0,
+//         leading: IconButton(
+//           icon: Icon(Icons.arrow_back, color: Colors.pink),
+//           onPressed: () => Navigator.pop(context),
+//         ),
+//         title: const Text(
+//           'Product Details',
+//           style: TextStyle(
+//             color: Colors.pink,
+//             fontFamily: 'FleurDeLeah',
+//             fontSize: 24,
+//           ),
+//         ),
+//         centerTitle: true,
+//       ),
+//       body: Center(
+//         child: Text(
+//           'Detail produk: $productName',
+//           style: TextStyle(
+//             fontSize: 18,
+//             color: Colors.pink,
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 
 // Update untuk navigasi ke detail kategori
