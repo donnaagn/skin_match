@@ -1,186 +1,194 @@
 import 'package:flutter/material.dart';
+import 'package:skin_match/models/product.dart'; // Pastikan path import sesuai dengan struktur project Anda
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(SkinMatchApp());
-}
+class DetailScreen extends StatefulWidget {
+  final Product product; // Mengganti parameter detail menjadi Product
+  const DetailScreen({super.key, required this.product});
 
-class SkinMatchApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: 'Roboto'), // Ganti font sesuai kebutuhan
-      home: ProductDetailPage(),
-    );
-  }
+  State<DetailScreen> createState() => _DetailScreenState();
 }
 
-class ProductDetailPage extends StatelessWidget {
+class _DetailScreenState extends State<DetailScreen> {
+  bool _isFavorite = false;
+
+  Future<void> _loadFavoriteStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> favoriteProduct = prefs.getStringList('favoriteProduct') ?? [];
+    setState(() {
+      _isFavorite = favoriteProduct.contains(widget.product.name);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFavoriteStatus();
+  }
+
+  Future<void> _toggleFavorite() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> favoriteProduct = prefs.getStringList('favoriteProduct') ?? [];
+    setState(() {
+      if (_isFavorite) {
+        favoriteProduct.remove(widget.product.name);
+        _isFavorite = false;
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('${widget.product.name} removed from favorites')));
+      } else {
+        favoriteProduct.add(widget.product.name);
+        _isFavorite = true;
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('${widget.product.name} added to favorites')));
+      }
+    });
+    await prefs.setStringList('favoriteProduct', favoriteProduct);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.pink.shade100,
         elevation: 0,
-        backgroundColor: Colors.white,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.pinkAccent),
-          onPressed: () {},
-        ),
-        title: Text(
-          'SkinMatch',
-          style: TextStyle(
-            color: Colors.pinkAccent,
-            fontSize: 24,
-            fontFamily: 'DancingScript', // Pastikan font ini di-load
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Foto Produk Placeholder
-              Center(
-                child: Container(
-                  height: 150,
-                  width: 150,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.pinkAccent),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Foto',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontStyle: FontStyle.italic,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 16),
-              // Nama Produk dan Harga
-              Text(
-                'Nama Produk',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 4),
-              Text(
-                '\$ XXX',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.pinkAccent,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              SizedBox(height: 8),
-              // Rating
-              Row(
-                children: [
-                  Icon(Icons.star, color: Colors.pinkAccent),
-                  SizedBox(width: 4),
-                  Text(
-                    '4.5',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              SizedBox(height: 8),
-              // Deskripsi
-              Text(
-                '"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt..."',
-                style: TextStyle(fontSize: 14, height: 1.5),
-              ),
-              SizedBox(height: 20),
-              // Tombol Add Review
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.pinkAccent,
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  child: Text(
-                    'Add Review',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              // Review Section
-              Text(
-                'Review (10)',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 8),
-              // List Review (dummy)
-              ReviewList(),
-            ],
-          ),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.pop(context),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 1,
-        selectedItemColor: Colors.pinkAccent,
-        unselectedItemColor: Colors.grey,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.explore), label: 'Explore'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
-      ),
-    );
-  }
-}
-
-class ReviewList extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: List.generate(2, (index) {
-        return Card(
-          margin: EdgeInsets.only(bottom: 12),
-          elevation: 2,
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                // Foto Produk
+                Container(
+                  height: 200,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade200,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Image.network(
+                      widget.product.image,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Nama Produk dan Favorit
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: List.generate(
-                        5,
-                        (starIndex) => Icon(
-                          Icons.star,
-                          color: starIndex < 5 ? Colors.pinkAccent : Colors.grey,
-                          size: 18,
-                        ),
+                    Text(
+                      widget.product.name,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text('10 Jan 2024', style: TextStyle(fontSize: 12)),
+                    IconButton(
+                      onPressed: _toggleFavorite,
+                      icon: Icon(
+                        _isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color: _isFavorite ? Colors.red : Colors.grey,
+                      ),
+                    ),
                   ],
                 ),
-                SizedBox(height: 8),
-                Text(
-                  'Ulasan pengguna...',
-                  style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                const SizedBox(height: 8),
+
+                // Harga dan Rating
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '\Rp.${widget.product.harga}',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        const Icon(Icons.star, color: Colors.amber, size: 20),
+                        SizedBox(width: 4),
+                        Text(
+                          widget.product.rating,
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
+                const SizedBox(height: 16),
+
+                // Deskripsi (misalnya bisa disesuaikan dengan data produk)
+                const Text(
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                  style: TextStyle(fontSize: 14, color: Colors.black87),
+                ),
+                const SizedBox(height: 16),
+
+                // Tombol Add Review
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.pink.shade100,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text(
+                    'Add Review',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Reviews
+                const Text(
+                  'Review (10)',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    const CircleAvatar(radius: 20, child: Icon(Icons.person)),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          Text(
+                            'User123',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                            style: TextStyle(fontSize: 14, color: Colors.black87),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
               ],
             ),
           ),
-        );
-      }),
+        ),
+      ),
     );
   }
 }
