@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:skin_match/models/product.dart';
 
 class DetailScreen extends StatefulWidget {
-  final String detail;
+  final Product detail;
 
   const DetailScreen({super.key, required this.detail});
 
@@ -15,8 +16,9 @@ class _DetailScreenState extends State<DetailScreen> {
 
   Future<void> _loadFavoriteStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> favoriteProducts = prefs.getStringList('favoriteProducts') ?? [];
     setState(() {
-      _isFavorite = prefs.getBool('isFavorite') ?? false;
+      _isFavorite = favoriteProducts.contains(widget.detail.name);
     });
   }
 
@@ -28,18 +30,38 @@ class _DetailScreenState extends State<DetailScreen> {
 
   Future<void> _toggleFavorite() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _isFavorite = !_isFavorite;
+    List<String> favoriteProducts = prefs.getStringList('favoriteProducts') ?? [];
+     setState(() {
+      if (_isFavorite) {
+        favoriteProducts.remove(widget.detail.name);
+        _isFavorite = false;
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('${widget.detail.name} removed from favorites')));
+      } else {
+        favoriteProducts.add(widget.detail.name);
+        _isFavorite = true;
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('${widget.detail.name} added to favorites')));
+      }
     });
-    await prefs.setBool('isFavorite', _isFavorite);
+    await prefs.setStringList('favoriteProducts', favoriteProducts);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.pink.shade100,
-        elevation: 0,
+        title: const Text(
+          'Detail Product',
+          style: TextStyle(
+            color: Colors.pink,
+            fontFamily: 'FleurDeLeah',
+            fontSize: 24,
+          ),
+        ),
+        backgroundColor: Colors.white, // Warna latar belakang AppBar
+        elevation: 0, // Menghilangkan bayangan AppBar
+        centerTitle: true, // Menempatkan judul di tengah
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
@@ -53,23 +75,16 @@ class _DetailScreenState extends State<DetailScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // Foto Produk
-                Container(
-                  height: 200,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Foto',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontStyle: FontStyle.italic,
-                        color: Colors.grey.shade600,
-                      ),
-                    ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(16), // Opsional, untuk memberi border radius pada gambar
+                  child: Image.network(
+                    widget.detail.image,  // Menampilkan gambar dari URL
+                    width: 100,  // Atur ukuran sesuai kebutuhan
+                    height: 300,
+                    fit: BoxFit.cover, // Agar gambar mengisi area dengan proporsional
                   ),
                 ),
+
                 const SizedBox(height: 16),
 
                 // Nama Produk dan Favorit
@@ -77,7 +92,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      widget.detail,
+                      widget.detail.name,
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -99,7 +114,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '\$ XXX',
+                      widget.detail.harga,
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
