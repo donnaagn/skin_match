@@ -115,6 +115,8 @@ class CategoryScreen extends StatelessWidget {
 }
 
 // Screen dengan desain grid untuk menampilkan daftar produk
+// Halaman utama aplikasi
+// Halaman utama aplikasi
 class CategoryDetailScreen extends StatelessWidget {
   final String title;
 
@@ -166,12 +168,13 @@ class CategoryDetailScreen extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.pink.shade100, width: 2),
-                  borderRadius: BorderRadius.circular(12.0),
+                  //borderRadius: BorderRadius.circular(12.0),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ClipRRect(
+<<<<<<< Updated upstream
                         borderRadius: BorderRadius.circular(16), // Opsional, untuk memberi border radius pada gambar
                         child: Image.network(
                           product.image,  // Menampilkan gambar dari URL
@@ -182,6 +185,16 @@ class CategoryDetailScreen extends StatelessWidget {
                   
 
                 ),
+=======
+                      //borderRadius: BorderRadius.circular(16),
+                      child: Image.network(
+                        product.image,
+                        width: 200, // Ukuran diperbesar
+                        height: 200, // Ukuran diperbesar
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+>>>>>>> Stashed changes
                     SizedBox(height: 8),
                     Text(
                       product.name,
@@ -208,6 +221,8 @@ class CategoryDetailScreen extends StatelessWidget {
     );
   }
 }
+
+
 
 // class ProductDetailScreen extends StatelessWidget {
 //   final String productName;

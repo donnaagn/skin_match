@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:skin_match/screens/search_screen.dart';  // Pastikan SearchScreen sudah ada
+<<<<<<< Updated upstream
+=======
+import 'package:skin_match/screens/search_screen.dart';  
+import 'package:carousel_slider/carousel_slider.dart';  // Import CarouselSlider
+import 'package:flutter/src/material/carousel.dart';
+>>>>>>> Stashed changes
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
