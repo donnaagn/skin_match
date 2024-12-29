@@ -117,6 +117,7 @@ class CategoryScreen extends StatelessWidget {
 // Screen dengan desain grid untuk menampilkan daftar produk
 // Halaman utama aplikasi
 // Halaman utama aplikasi
+// Halaman utama aplikasi
 class CategoryDetailScreen extends StatelessWidget {
   final String title;
 
@@ -161,7 +162,7 @@ class CategoryDetailScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DetailScreen( product:product),
+                    builder: (context) => DetailScreen(detail: product),
                   ),
                 );
               },
@@ -174,18 +175,6 @@ class CategoryDetailScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ClipRRect(
-<<<<<<< Updated upstream
-                        borderRadius: BorderRadius.circular(16), // Opsional, untuk memberi border radius pada gambar
-                        child: Image.network(
-                          product.image,  // Menampilkan gambar dari URL
-                          width: 200,  // Atur ukuran sesuai kebutuhan
-                          height: 200,
-                          fit: BoxFit.cover, // Agar gambar mengisi area dengan proporsional
-                        ),
-                  
-
-                ),
-=======
                       //borderRadius: BorderRadius.circular(16),
                       child: Image.network(
                         product.image,
@@ -194,7 +183,6 @@ class CategoryDetailScreen extends StatelessWidget {
                         fit: BoxFit.cover,
                       ),
                     ),
->>>>>>> Stashed changes
                     SizedBox(height: 8),
                     Text(
                       product.name,
@@ -223,11 +211,6 @@ class CategoryDetailScreen extends StatelessWidget {
 }
 
 
-
-// class ProductDetailScreen extends StatelessWidget {
-//   final String productName;
-
-//   const ProductDetailScreen({super.key, required this.productName});
 
 //   @override
 //   Widget build(BuildContext context) {

@@ -1,35 +1,7 @@
-import '../models/product.dart';
+import 'package:skin_match/models/product.dart';
 
 final Map<String, List<Product>> productsByCategory = {
   'Moisturizer': [
-<<<<<<< Updated upstream
-    Product(name: 'Hydrating Cream Night', rating: '4.5', reviews: '120'),
-    Product(name: 'Night Moisturizer', rating: '4.2', reviews: '85'),
-  ],
-  'Toner': [
-    Product(name: 'Soothing Toner', rating: '4.7', reviews: '210'),
-    Product(name: 'Brightening Toner', rating: '4.3', reviews: '130'),
-  ],
-  'Serum': [
-    Product(name: 'Vitamin C Serum', rating: '4.6', reviews: '150'),
-    Product(name: 'Hyaluronic Acid Serum', rating: '4.8', reviews: '200'),
-  ],
-  'Sunscreen': [
-    Product(name: 'SPF 50 Sunscreen', rating: '4.5', reviews: '190'),
-    Product(name: 'Mineral Sunscreen', rating: '4.3', reviews: '110'),
-  ],
-  'Face Mask': [
-    Product(name: 'Clay Mask', rating: '4.5', reviews: '95'),
-    Product(name: 'Hydrating Mask', rating: '4.7', reviews: '120'),
-  ],
-  'Lips Care': [
-    Product(name: 'Lip Balm', rating: '4.8', reviews: '220'),
-    Product(name: 'Lip Scrub', rating: '4.4', reviews: '150'),
-  ],
-  'Cleanser': [
-    Product(name: 'Foaming Cleanser', rating: '4.6', reviews: '170'),
-    Product(name: 'Micellar Water', rating: '4.2', reviews: '140'),
-=======
     Product(name: 'Intensive Cream COSRX', rating: '4.9', harga: '145.000', reviews: '120', image: 'https://id.ozcosmetics.com/prodimgs/202309/312682.jpg'),
     Product(name: 'Night Moisturizer', rating: '4.2', harga: '200.000', reviews: '85', image: 'https://glowtopia.id/media/catalog/product/cache/7b8bedd9a9c5b9866f2784d534674d3a/a/c/acne_care_gel_wl.webp'),
     Product(name: 'Daily Hydrating Lotion', rating: '4.8', harga: '180.000', reviews: '98', image: 'https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//catalog-image/106/MTA-137831983/the-originote_the-originote-cica-b5-soothing-moisturizer-moisturizer-menenangkan-kulit-kemerahan-mengunci-hidrasi-with-centella-asiatica_full01.jpg'),
@@ -105,6 +77,5 @@ final Map<String, List<Product>> productsByCategory = {
     Product(name: 'Brightening Cleanser', rating: '4.4', harga: '95.000', reviews: '100', image: 'https://down-id.img.susercontent.com/file/116d37bee0d588b5815e117cfc88aba1'),
     Product(name: 'Double Cleanser', rating: '4.7', harga: '150.000', reviews: '160', image: 'https://www.larocheposay.co.id/-/media/project/loreal/brand-sites/lrp/master/dmi/products/effaclar/effaclar-h-iso-biome-cleaning-cream/lrp-effaclar-h-isobiome-cleanser-200ml-pack.jpg?cx=0&amp;ch=600&amp;cy=0&amp;cw=600&hash=E5252296428F333C76308479EC8D8CE6'),
     Product(name: 'Daily Cleanser', rating: '4.6', harga: '115.000', reviews: '145', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRu13hYsthQbluwsrD9XC2Bahn2eHg5RQs4pg&s'),
->>>>>>> Stashed changes
   ],
 };

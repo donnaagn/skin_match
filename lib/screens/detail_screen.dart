@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:skin_match/models/product.dart'; // Pastikan path import sesuai dengan struktur project Anda
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:skin_match/models/product.dart';
 
 class DetailScreen extends StatefulWidget {
-  final Product product; // Mengganti parameter detail menjadi Product
-  const DetailScreen({super.key, required this.product});
+  final Product detail;
+
+  const DetailScreen({super.key, required this.detail});
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -15,9 +16,9 @@ class _DetailScreenState extends State<DetailScreen> {
 
   Future<void> _loadFavoriteStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> favoriteProduct = prefs.getStringList('favoriteProduct') ?? [];
+    List<String> favoriteProducts = prefs.getStringList('favoriteProducts') ?? [];
     setState(() {
-      _isFavorite = favoriteProduct.contains(widget.product.name);
+      _isFavorite = favoriteProducts.contains(widget.detail.name);
     });
   }
 
@@ -29,29 +30,38 @@ class _DetailScreenState extends State<DetailScreen> {
 
   Future<void> _toggleFavorite() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> favoriteProduct = prefs.getStringList('favoriteProduct') ?? [];
-    setState(() {
+    List<String> favoriteProducts = prefs.getStringList('favoriteProducts') ?? [];
+     setState(() {
       if (_isFavorite) {
-        favoriteProduct.remove(widget.product.name);
+        favoriteProducts.remove(widget.detail.name);
         _isFavorite = false;
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('${widget.product.name} removed from favorites')));
+            content: Text('${widget.detail.name} removed from favorites')));
       } else {
-        favoriteProduct.add(widget.product.name);
+        favoriteProducts.add(widget.detail.name);
         _isFavorite = true;
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('${widget.product.name} added to favorites')));
+            content: Text('${widget.detail.name} added to favorites')));
       }
     });
-    await prefs.setStringList('favoriteProduct', favoriteProduct);
+    await prefs.setStringList('favoriteProducts', favoriteProducts);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.pink.shade100,
-        elevation: 0,
+        title: const Text(
+          'Detail Product',
+          style: TextStyle(
+            color: Colors.pink,
+            fontFamily: 'FleurDeLeah',
+            fontSize: 24,
+          ),
+        ),
+        backgroundColor: Colors.white, // Warna latar belakang AppBar
+        elevation: 0, // Menghilangkan bayangan AppBar
+        centerTitle: true, // Menempatkan judul di tengah
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
@@ -65,20 +75,16 @@ class _DetailScreenState extends State<DetailScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // Foto Produk
-                Container(
-                  height: 200,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Image.network(
-                      widget.product.image,
-                      fit: BoxFit.cover,
-                    ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(16), // Opsional, untuk memberi border radius pada gambar
+                  child: Image.network(
+                    widget.detail.image,  // Menampilkan gambar dari URL
+                    width: 100,  // Atur ukuran sesuai kebutuhan
+                    height: 300,
+                    fit: BoxFit.cover, // Agar gambar mengisi area dengan proporsional
                   ),
                 ),
+
                 const SizedBox(height: 16),
 
                 // Nama Produk dan Favorit
@@ -86,7 +92,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      widget.product.name,
+                      widget.detail.name,
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -108,7 +114,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '\Rp.${widget.product.harga}',
+                      widget.detail.harga,
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -116,12 +122,12 @@ class _DetailScreenState extends State<DetailScreen> {
                       ),
                     ),
                     Row(
-                      children: [
-                        const Icon(Icons.star, color: Colors.amber, size: 20),
+                      children: const [
+                        Icon(Icons.star, color: Colors.amber, size: 20),
                         SizedBox(width: 4),
                         Text(
-                          widget.product.rating,
-                          style: const TextStyle(fontSize: 16),
+                          '4.5',
+                          style: TextStyle(fontSize: 16),
                         ),
                       ],
                     ),
@@ -129,7 +135,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 ),
                 const SizedBox(height: 16),
 
-                // Deskripsi (misalnya bisa disesuaikan dengan data produk)
+                // Deskripsi
                 const Text(
                   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                   style: TextStyle(fontSize: 14, color: Colors.black87),
