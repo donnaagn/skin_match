@@ -10,6 +10,6 @@ class Product {
     required this.rating,
     required this.harga,
     required this.reviews,
-    required this.image,
+    required this.image, 
   });
 }

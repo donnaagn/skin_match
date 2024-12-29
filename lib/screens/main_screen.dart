@@ -14,11 +14,11 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _screenOptions = <Widget>[
+  static List<Widget> _screenOptions = <Widget>[
     HomeScreen(),
-    ExploreScreen(),
-    FavoriteScreen(),
-    ProfileScreen(),
+    const ExploreScreen(),
+    const FavoriteScreen(),
+    const ProfileScreen(),
    
   ];
 
