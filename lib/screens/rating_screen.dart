@@ -21,11 +21,45 @@ class ReviewPage extends StatefulWidget {
 
 class _ReviewPageState extends State<ReviewPage> {
   int _selectedRating = 0;
+  String? _errorMessage; // Untuk menyimpan pesan error
 
   void _onRatingSelected(int index) {
     setState(() {
       _selectedRating = index + 1;
+      _errorMessage = null; // Menghapus pesan error saat rating dipilih
     });
+  }
+
+  void _submitReview(BuildContext context) {
+    if (_selectedRating == 0) {
+      // Jika rating belum dipilih, tampilkan pesan error
+      setState(() {
+        _errorMessage = 'Silakan pilih rating terlebih dahulu.';
+      });
+    } else {
+      // Jika rating valid, tampilkan dialog konfirmasi
+      _showReviewSubmittedDialog(context);
+    }
+  }
+
+  void _showReviewSubmittedDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Ulasan Terkirim'),
+          content: const Text('Terima kasih telah memberikan ulasan!'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Menutup dialog
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -35,7 +69,7 @@ class _ReviewPageState extends State<ReviewPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.pink),
           onPressed: () {
-            // Back button functionality
+            Navigator.pop(context); // Navigasi kembali
           },
         ),
         backgroundColor: Colors.white,
@@ -43,9 +77,9 @@ class _ReviewPageState extends State<ReviewPage> {
         title: Text(
           'Ulasan',
           style: TextStyle(
-            color: Colors.pink.shade200,
-            fontFamily: 'FeurDeLeah',
-            fontSize: 20,
+            color: Colors.pink,
+            fontFamily: 'FleurDeLeah',
+            fontSize: 24,
           ),
         ),
         centerTitle: true,
@@ -68,6 +102,14 @@ class _ReviewPageState extends State<ReviewPage> {
                 );
               }),
             ),
+            if (_errorMessage != null) // Menampilkan pesan error jika ada
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  _errorMessage!,
+                  style: TextStyle(color: Colors.red, fontSize: 14),
+                ),
+              ),
             SizedBox(height: 16),
 
             // Review Text Field
@@ -114,7 +156,7 @@ class _ReviewPageState extends State<ReviewPage> {
                   ),
                 ),
                 onPressed: () {
-                  // Submit functionality
+                  _submitReview(context); // Validasi rating sebelum submit
                 },
                 child: Text(
                   'Kirim',

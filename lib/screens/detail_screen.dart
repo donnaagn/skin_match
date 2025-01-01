@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skin_match/models/product.dart';
+import 'package:skin_match/screens/rating_screen.dart';
 
 class DetailScreen extends StatefulWidget {
   final Product detail;
@@ -144,7 +145,12 @@ class _DetailScreenState extends State<DetailScreen> {
 
                 // Tombol Add Review
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ReviewPage())
+                    );
+                    
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.pink.shade100,
                     shape: RoundedRectangleBorder(
@@ -158,38 +164,8 @@ class _DetailScreenState extends State<DetailScreen> {
                 ),
                 const SizedBox(height: 16),
 
-                // Reviews
-                const Text(
-                  'Review (10)',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    const CircleAvatar(radius: 20, child: Icon(Icons.person)),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            'User123',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                            style: TextStyle(fontSize: 14, color: Colors.black87),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
+                
+                
               ],
             ),
           ),
