@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+
+import 'package:skin_match/screens/search_screen.dart';  
+import 'package:carousel_slider/carousel_slider.dart';  // Import CarouselSlider
+import 'package:flutter/src/material/carousel.dart';
 import 'package:skin_match/screens/search_screen.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
