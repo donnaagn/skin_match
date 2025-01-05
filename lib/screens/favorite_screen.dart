@@ -34,9 +34,22 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Favorite')),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: const Text(
+          'SkinMatch',
+          style: TextStyle(
+            color: Colors.pink,
+            fontFamily: 'FleurDeLeah',
+            fontSize: 24,
+          ),
+        ),
+        centerTitle: true,
+       
+      ),
       body: SafeArea(
           child: SingleChildScrollView(
         child: Column(
