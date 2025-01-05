@@ -111,7 +111,7 @@ class HomeScreen extends StatelessWidget {
                     skinType: 'berminyak, berjerawat',
                     productImage: 'images/skintific.jpg',
                     userImage: 'images/user2.jpg',
-                    rating: 4.5,
+                    rating: 5,
                     reviewCount: 50,
                     comment: 'Produk ini bagus! Teksturnya mudah menyerap dan efeknya terasa cepat.',
                     usagePeriod: '3 months - 6 months',
