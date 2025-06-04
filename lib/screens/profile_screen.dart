@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skin_match/screens/beauty_profil_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -85,31 +86,62 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
             SizedBox(height: 20),
 
-            ElevatedButton.icon(
-              onPressed: () {
-                setState(() {
-                  if (isEditMode) {
-                    // Simpan data dari TextEditingController ke state hanya jika disimpan
-                    userName = _nameController.text;
-                    userEmail = _emailController.text;
-                    userSkinType = _skinTypeController.text;
-                    userAge = _ageController.text;
-                  }
-                  isEditMode = !isEditMode; // Toggle mode
-                });
-              },
-              icon: Icon(
-                isEditMode ? Icons.check : Icons.edit,
-                color: Colors.white,
-              ),
-              label: Text(isEditMode ? 'Save' : 'Edit Profile', style: TextStyle(color: Colors.white)),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.pink,
-                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      if (isEditMode) {
+                        // Simpan data dari TextEditingController ke state hanya jika disimpan
+                        userName = _nameController.text;
+                        userEmail = _emailController.text;
+                        userSkinType = _skinTypeController.text;
+                        userAge = _ageController.text;
+                      }
+                      isEditMode = !isEditMode; // Toggle mode
+                    });
+                  },
+                  icon: Icon(
+                    isEditMode ? Icons.check : Icons.edit,
+                    color: Colors.white,
+                  ),
+                  label: Text(isEditMode ? 'Save' : 'Edit Profile', style: TextStyle(color: Colors.white)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.pink,
+                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
                 ),
-              ),
+                SizedBox(width: 10),
+                ElevatedButton.icon(
+                  onPressed: () async {
+                    final selectedSkinType = await Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const BeautyProfileScreen(),
+                      ),
+                    );
+                    if (selectedSkinType != null) {
+                      // You can handle the selected skin type here if needed
+                      print('Selected skin type: $selectedSkinType');
+                    }
+                  },
+                  icon: Icon(
+                    Icons.spa,
+                    color: Colors.white,
+                  ),
+                  label: Text('Beauty profile', style: TextStyle(color: Colors.white)),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.pink,
+                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+              ],
             ),
 
             SizedBox(height: 10),
